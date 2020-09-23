@@ -30,4 +30,8 @@ public class WarehouseStorage implements Storage {
             System.out.println(warehouseItem);
         }
     }
+
+    public void updateStorage(List<WarehouseItem> updatedList) {
+        this.warehouseItems = updatedList;
+    }
 }

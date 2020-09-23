@@ -2,6 +2,8 @@ package lt.warehousesystem.models.Warehouse;
 
 import lt.warehousesystem.models.Item;
 
+import java.util.Objects;
+
 public class WarehouseItem implements Item {
 
     private String title;
@@ -57,5 +59,15 @@ public class WarehouseItem implements Item {
         this.code = values[1];
         this.quantity = Integer.parseInt(values[2]);
         this.date = values[3];
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WarehouseItem that = (WarehouseItem) o;
+        return title.equals(that.title) &&
+                code.equals(that.code) &&
+                date.equals(that.date);
     }
 }

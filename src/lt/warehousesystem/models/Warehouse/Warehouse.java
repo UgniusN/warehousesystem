@@ -18,14 +18,20 @@ public class Warehouse {
 
     private WarehouseService warehouseService = new WarehouseServiceImpl();
     private WarehouseStorageService warehouseStorageService = new WarehouseStorageServiceImpl();
+    private WarehouseUI warehouseUI = new WarehouseUI();
 
     public Warehouse() throws IOException {
     }
 
     public void kazkastai() {
-        for(WarehouseItem warehouseItem : warehouseStorageService.kazkas()) {
-            System.out.println(warehouseItem);
-        }
+        warehouseUI.showUI();
     }
 
+    public List<WarehouseItem> getLackingItems(int atleastAmount) {
+        return warehouseService.filterRequiredQuantity(atleastAmount,warehouseStorageService.getAllItemsFromWarehouse());
+    }
+
+    public List<WarehouseItem> getFilteredItems() {
+        return warehouseStorageService.addDuplicates();
+    }
 }
