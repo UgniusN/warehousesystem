@@ -2,8 +2,6 @@ package lt.warehousesystem.models.Warehouse;
 
 import lt.warehousesystem.models.Item;
 
-import java.util.Objects;
-
 public class WarehouseItem implements Item {
 
     private String title;

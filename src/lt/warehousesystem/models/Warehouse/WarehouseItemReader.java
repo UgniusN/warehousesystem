@@ -1,8 +1,6 @@
 package lt.warehousesystem.models.Warehouse;
 
 import lt.warehousesystem.models.Reader;
-import lt.warehousesystem.models.Warehouse.WarehouseItem;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -16,8 +14,6 @@ public class WarehouseItemReader implements Reader<WarehouseItem> {
 
     private final String STORAGE_FILE = loadFileName();
 
-    public WarehouseItemReader() throws IOException {
-    }
 
     @Override
     public List readAll() {
@@ -40,13 +36,15 @@ public class WarehouseItemReader implements Reader<WarehouseItem> {
     }
 
     @Override
-    public String loadFileName() throws IOException {
+    public String loadFileName() {
         try {
             InputStream inputStream = new FileInputStream("program.properties");
             Properties properties = new Properties();
             properties.load(inputStream);
             return (String) properties.get("storage_file");
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;

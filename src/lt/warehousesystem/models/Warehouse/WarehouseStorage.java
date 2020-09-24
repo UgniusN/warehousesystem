@@ -1,8 +1,6 @@
 package lt.warehousesystem.models.Warehouse;
 
 import lt.warehousesystem.models.Storage;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +9,6 @@ public class WarehouseStorage implements Storage {
     private WarehouseItemReader warehouseItemReader = new WarehouseItemReader();
     private List<WarehouseItem> warehouseItems = new ArrayList<>();
 
-    public WarehouseStorage() throws IOException {
-
-    }
 
     @Override
      public void loadStorage() {
