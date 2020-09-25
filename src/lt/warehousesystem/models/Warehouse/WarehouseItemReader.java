@@ -13,7 +13,7 @@ import java.util.Properties;
 public class WarehouseItemReader implements Reader<WarehouseItem> {
 
     private final String STORAGE_FILE = loadFileName();
-
+    private final String ERROR_MESSAGE = "**************** File not found. Please restart the program. ****************";
 
     @Override
     public List readAll() {
@@ -25,12 +25,12 @@ public class WarehouseItemReader implements Reader<WarehouseItem> {
             while (line != null) {
                 String[] attributes = line.split(",");
                 WarehouseItem warehouseItem = new WarehouseItem();
-                warehouseItem.builditem(attributes);
+                warehouseItem.buildItem(attributes);
                 warehouseItems.add(warehouseItem);
                 line = br.readLine();
             }
         } catch (IOException ioException) {
-            ioException.printStackTrace();
+            System.out.println(ERROR_MESSAGE);
         }
         return warehouseItems;
     }
@@ -43,9 +43,9 @@ public class WarehouseItemReader implements Reader<WarehouseItem> {
             properties.load(inputStream);
             return (String) properties.get("storage_file");
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println(ERROR_MESSAGE);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(ERROR_MESSAGE);
         }
         return null;
     }

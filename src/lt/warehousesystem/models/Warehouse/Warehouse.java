@@ -4,22 +4,20 @@ import lt.warehousesystem.services.WarehouseService;
 import lt.warehousesystem.services.WarehouseServiceImpl;
 import lt.warehousesystem.services.WarehouseStorageService;
 import lt.warehousesystem.services.WarehouseStorageServiceImpl;
+
+import java.text.ParseException;
 import java.util.List;
 
 public class Warehouse {
 
-    private WarehouseService warehouseService = new WarehouseServiceImpl();
-    private WarehouseStorageService warehouseStorageService = new WarehouseStorageServiceImpl();
+    private final WarehouseService warehouseService = new WarehouseServiceImpl();
+    private final WarehouseStorageService warehouseStorageService = new WarehouseStorageServiceImpl();
 
     public List<WarehouseItem> getLackingItems(int atleastAmount) {
         return warehouseService.filterRequiredQuantity(atleastAmount,warehouseStorageService.getAllItemsFromWarehouse());
     }
 
-    public List<WarehouseItem> getFilteredItems() {
-        return warehouseStorageService.addDuplicates();
-    }
-
-    public List<WarehouseItem> getExpiredOrSoonExpiredItems(String date) {
-        return warehouseStorageService.getExpiredOrSoonExpiredItems(date,2);
+    public List<WarehouseItem> getExpiredOrSoonExpiredItems(String date, int amountOfDays) throws ParseException {
+        return warehouseStorageService.getExpiredOrSoonExpiredItems(date,amountOfDays);
     }
 }

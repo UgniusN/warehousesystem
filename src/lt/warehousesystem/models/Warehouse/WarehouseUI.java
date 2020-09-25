@@ -1,16 +1,16 @@
 package lt.warehousesystem.models.Warehouse;
 
+import lt.warehousesystem.models.Errors;
 import lt.warehousesystem.models.UIFormatter;
-
+import java.text.ParseException;
+import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 public class WarehouseUI {
 
-    private Warehouse warehouse;
+    private final Warehouse warehouse;
     private final Scanner scanner = new Scanner(System.in);
-    private UIFormatter uiFormatter = new UIFormatter();
-    Logger logger = Logger.getLogger(WarehouseUI.class.getName());
+    private final UIFormatter uiFormatter = new UIFormatter();
 
     public WarehouseUI(Warehouse warehouse) {
         this.warehouse = warehouse;
@@ -21,45 +21,63 @@ public class WarehouseUI {
         int action;
         int min;
         String date;
-        while(true) {
-            action = 0;
-            System.out.println("Select action:" +
-                    "\n1. Check lacking item quantities" +
-                    "\n2. Check items, who have already expired, or will expire soon");
+        boolean active = true;
+        int expirationAdditionalDays;
+        System.out.println("Welcome to Warehouse system V1");
+        while(active) {
+            uiFormatter.formSelection();
             try {
                 action = scanner.nextInt();
-            }
-            catch (java.util.InputMismatchException e) {
-                System.out.println("**** ERROR: WRONG INPUT FORMAT. INPUT INTEGERS IN ORDER TO SELECT ACTION");
-                scanner.nextLine();
-            }
-            finally {
                 switch (action) {
                     case 1:
-                        min = 0;
-                        System.out.println("Please enter the minimum item quantity");
+                        min = 4;
+                        System.out.println("Please enter the maximum item quantity");
                         try {
-                        min = scanner.nextInt();
+                            min = scanner.nextInt();
+                            uiFormatter.formLackingItemHeader();
+                            uiFormatter.formTable(warehouse.getLackingItems(min));
                         }
                         catch (java.util.InputMismatchException e) {
-                            System.out.println("**** ERROR: WRONG INPUT FORMAT. INPUT INTEGERS IN ORDER TO RETRIEVE DATA");
+                            scanner.nextLine();
+                            System.out.println(Errors.WRONG_INPUT_FORMAT_INTEGER);
                         }
                         finally {
-                            uiFormatter.formLackingItemHeader();
-                            uiFormatter.formLackingItemsTable(warehouse.getLackingItems(min));
+                            break;
                         }
-                        break;
                     case 2:
-                        System.out.println("Please enter the date o item quantity");
-                        scanner.nextLine();
-                        date = scanner.nextLine();
-                        for(WarehouseItem item : warehouse.getExpiredOrSoonExpiredItems(date)) {
-                            System.out.println(item);
+                        System.out.println("Please enter the date of expiration (Format: yyyy-mm-dd)");
+                        try {
+                            scanner.nextLine();
+                            date = scanner.nextLine();
+                            System.out.println("Please enter aditional expiry days");
+                            try {
+                                expirationAdditionalDays = scanner.nextInt();
+                                List<WarehouseItem> expiredOrSoonExpiredItems = warehouse.getExpiredOrSoonExpiredItems(date, expirationAdditionalDays);
+                                uiFormatter.formExpiredOrSoonExpiredHeader();
+                                uiFormatter.formTable(expiredOrSoonExpiredItems);
+                            } catch (ParseException e) {
+                                scanner.nextLine();
+                                System.out.println(Errors.WRONG_DATE_FORMAT);
+                            }
+
+                        } catch (java.util.InputMismatchException e) {
+                            scanner.nextLine();
+                            System.out.println(Errors.WRONG_INPUT_FORMAT_DAYCOUNT);
                         }
                         break;
                     case 0:
                         break;
+                    case 3:
+                        active=false;
+                        break;
+                    default:
+                        System.out.println(Errors.WRONG_SELECTION);
+                        break;
                 }
+            }
+            catch (java.util.InputMismatchException e) {
+                scanner.nextLine();
+                System.out.println(Errors.WRONG_INPUT_FORMAT_INTEGER);
             }
         }
     }

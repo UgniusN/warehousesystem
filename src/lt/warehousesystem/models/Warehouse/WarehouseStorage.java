@@ -9,7 +9,6 @@ public class WarehouseStorage implements Storage {
     private WarehouseItemReader warehouseItemReader = new WarehouseItemReader();
     private List<WarehouseItem> warehouseItems = new ArrayList<>();
 
-
     @Override
      public void loadStorage() {
         this.warehouseItems = warehouseItemReader.readAll();
@@ -18,12 +17,6 @@ public class WarehouseStorage implements Storage {
     @Override
     public List<WarehouseItem> getAllItemsFromStorage() {
         return warehouseItems;
-    }
-
-    public void printAll() {
-        for(WarehouseItem warehouseItem : warehouseItems) {
-            System.out.println(warehouseItem);
-        }
     }
 
     public void updateStorage(List<WarehouseItem> updatedList) {

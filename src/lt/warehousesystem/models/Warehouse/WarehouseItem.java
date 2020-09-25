@@ -13,16 +13,8 @@ public class WarehouseItem implements Item {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getCode() {
         return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public int getQuantity() {
@@ -37,10 +29,6 @@ public class WarehouseItem implements Item {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     @Override
     public String  toString() {
         return "Item{" +
@@ -52,7 +40,7 @@ public class WarehouseItem implements Item {
     }
 
     @Override
-    public void builditem(String[] values) {
+    public void buildItem(String[] values) {
         this.title = values[0];
         this.code = values[1];
         this.quantity = Integer.parseInt(values[2]);

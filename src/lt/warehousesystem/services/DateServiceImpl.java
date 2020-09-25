@@ -17,6 +17,6 @@ public class DateServiceImpl implements DateService{
     }
 
     public Date getFormatedDate(String date) throws ParseException {
-            return simpleDateFormat.parse(date);
-        }
+        return simpleDateFormat.parse(date);
     }
+}
